@@ -48,8 +48,6 @@ export function MeetScreen({ exercise, onNext, onBack, canGoBack }: Props) {
     if (audioText) speak(audioText);
   };
 
-  // Hide mnemonic block when the mnemonic hook is the same as the soundsLike word
-  // (the redundancy case — e.g. ㅏ where both are "father")
   const showMnemonic =
     !target.soundsLike ||
     target.mnemonicHook.toLowerCase() !== target.soundsLike.word.toLowerCase();
@@ -78,36 +76,33 @@ export function MeetScreen({ exercise, onNext, onBack, canGoBack }: Props) {
         </button>
       </div>
 
-      <div className="meet-romanization">
-        {target.soundsLike ? (
-          <>
-            sounds like <strong>&ldquo;{target.soundsLike.word} ({target.soundsLike.phonetic})&rdquo;</strong>
-          </>
-        ) : (
-          <>
-            sounds like <strong>{target.romanization}</strong>
-          </>
+      <div className="meet-letter-romanization">{target.romanization}</div>
+
+      <div className="meet-mnemonic">
+        {target.soundsLike && (
+          <div className="meet-mnemonic-section">
+            <span className="meet-mnemonic-eyebrow meet-mnemonic-eyebrow-pink">sounds like</span>
+            <p className="meet-mnemonic-soundslike">
+              <strong>{target.soundsLike.word}</strong> ({target.soundsLike.phonetic})
+            </p>
+          </div>
+        )}
+
+        {showMnemonic && (
+          <div className={`meet-mnemonic-section ${target.soundsLike ? "meet-mnemonic-section-divider" : ""}`}>
+            <span className="meet-mnemonic-eyebrow">remember it as</span>
+            <p className="meet-mnemonic-hook">&ldquo;{target.mnemonicHook}&rdquo;</p>
+            <p className="meet-mnemonic-shape">{target.mnemonicShape}</p>
+          </div>
+        )}
+
+        {target.articulation && (
+          <div className={`meet-mnemonic-section ${target.soundsLike || showMnemonic ? "meet-mnemonic-section-divider" : ""}`}>
+            <span className="meet-mnemonic-eyebrow meet-mnemonic-eyebrow-teal">how to make the sound</span>
+            <p className="meet-mnemonic-articulation">{target.articulation}</p>
+          </div>
         )}
       </div>
-
-      {(showMnemonic || target.articulation) && (
-        <div className="meet-mnemonic">
-          {showMnemonic && (
-            <div className="meet-mnemonic-section">
-              <span className="meet-mnemonic-eyebrow">remember it as</span>
-              <p className="meet-mnemonic-hook">&ldquo;{target.mnemonicHook}&rdquo;</p>
-              <p className="meet-mnemonic-shape">{target.mnemonicShape}</p>
-            </div>
-          )}
-
-          {target.articulation && (
-            <div className={`meet-mnemonic-section ${showMnemonic ? "meet-mnemonic-section-divider" : ""}`}>
-              <span className="meet-mnemonic-eyebrow meet-mnemonic-eyebrow-teal">how to make the sound</span>
-              <p className="meet-mnemonic-articulation">{target.articulation}</p>
-            </div>
-          )}
-        </div>
-      )}
 
       <div className="meet-nav">
         <button
