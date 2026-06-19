@@ -21,9 +21,7 @@ export function Nav() {
       </Link>
       <div className="nav-right">
         <div className="nav-links">
-          <a href="#how">How it works</a>
-          <a href="#courses">Courses</a>
-          <a href="#courses" className="nav-cta">Start free</a>
+          <Link href="/courses" className="nav-cta">Courses</Link>
         </div>
         <ThemeToggle />
       </div>
