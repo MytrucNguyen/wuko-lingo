@@ -18,8 +18,8 @@ export function Hero() {
           Wuko Lingo makes learning a language feel less like school.
         </p>
         <div className="hero-actions">
-          <Button variant="primary" href="#courses">
-            Let&apos;s go! →
+          <Button variant="primary" href="/courses">
+            Let&apos;s go
           </Button>
           <Button variant="ghost" href="#how">
             How it works
