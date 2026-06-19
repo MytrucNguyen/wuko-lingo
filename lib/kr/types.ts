@@ -2,6 +2,11 @@ export type Romanization = string;
 
 export type ExerciseType = "meet" | "recognize" | "recall" | "build" | "read";
 
+export type SoundsLike = {
+  word: string;
+  phonetic: string;
+};
+
 export type Consonant = {
   kind: "consonant";
   char: string;
@@ -9,7 +14,10 @@ export type Consonant = {
   ipa: string;
   mnemonicHook: string;
   mnemonicShape: string;
+  articulation?: string;
+  soundsLike?: SoundsLike;
   audioHint: string;
+  soundHint: string;
 };
 
 export type Vowel = {
@@ -20,6 +28,8 @@ export type Vowel = {
   orientation: "vertical" | "horizontal";
   mnemonicHook: string;
   mnemonicShape: string;
+  articulation?: string;
+  soundsLike?: SoundsLike;
   audioHint: string;
 };
 
@@ -32,6 +42,7 @@ export type Exercise = {
   target: Jamo | string;
   options?: Array<Jamo | string>;
   estimatedSeconds: number;
+  note?: string;
 };
 
 export type Lesson = {
