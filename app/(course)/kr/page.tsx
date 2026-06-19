@@ -18,16 +18,11 @@ export default function KoreanCoursePage() {
           <p className="course-native">{koreanCourse.nativeName}</p>
         </header>
 
-        <section className="course-history">
-          <span className="section-eyebrow">a tiny bit of context</span>
-          <h2 className="section-title-left">A short history of Hangul</h2>
+        <WukoNote label="did you know?" size="lg">
+          <h2 className="wuko-note-title">A short history of Hangul</h2>
           {koreanCourse.history.map((paragraph, i) => (
-            <p key={i} className="course-history-p">{paragraph}</p>
+            <p key={i}>{paragraph}</p>
           ))}
-        </section>
-
-        <WukoNote label="ready when you are">
-          Start with four consonants. Take it at your pace. The lesson saves where you leave off.
         </WukoNote>
 
         <section className="course-modules">
