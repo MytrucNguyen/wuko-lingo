@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useMemo } from "react";
+import { useState, useMemo, useCallback } from "react";
 import type { Lesson, Exercise } from "@/lib/kr/types";
 import { LessonShell } from "./LessonShell";
 import { MeetScreen } from "./MeetScreen";
@@ -8,8 +8,40 @@ import { RecallScreen } from "./RecallScreen";
 import { RecognizeScreen } from "./RecognizeScreen";
 import { ExercisePlaceholder } from "./ExercisePlaceholder";
 import { LessonComplete } from "./LessonComplete";
+import { PhaseTransitionScreen } from "./PhaseTransitionScreen";
 
 type ExerciseStatus = "pending" | "correct" | "wrong" | "review-correct";
+
+type PhaseTransition = {
+  from: Exercise["type"];
+  to: Exercise["type"];
+  eyebrow: string;
+  message: string;
+};
+
+const PHASE_TRANSITIONS: PhaseTransition[] = [
+  {
+    from: "meet",
+    to: "recall",
+    eyebrow: "nice work",
+    message: "You met them all. Time to test what stuck. No pressure.",
+  },
+  {
+    from: "recall",
+    to: "recognize",
+    eyebrow: "halfway",
+    message: "Now we mix it up. Same letters, harder mode.",
+  },
+];
+
+function findTransition(
+  fromType: Exercise["type"] | undefined,
+  toType: Exercise["type"] | undefined
+): PhaseTransition | null {
+  if (!fromType || !toType) return null;
+  if (fromType === toType) return null;
+  return PHASE_TRANSITIONS.find((t) => t.from === fromType && t.to === toType) || null;
+}
 
 type Props = {
   lesson: Lesson;
@@ -17,13 +49,14 @@ type Props = {
 };
 
 export function LessonPlayer({ lesson, moduleSlug }: Props) {
-  // Queue of exercise IDs in order they should appear
   const initialQueue = useMemo(() => lesson.exercises.map((e) => e.id), [lesson]);
   const [queue, setQueue] = useState<string[]>(initialQueue);
   const [currentIndex, setCurrentIndex] = useState(0);
   const [statuses, setStatuses] = useState<Record<string, ExerciseStatus>>({});
   const [attempts, setAttempts] = useState<Record<string, number>>({});
   const [done, setDone] = useState(false);
+  const [transitionShown, setTransitionShown] = useState<Record<number, boolean>>({});
+  const [activeTransition, setActiveTransition] = useState<PhaseTransition | null>(null);
 
   const exerciseById = useMemo(() => {
     const map: Record<string, Exercise> = {};
@@ -31,13 +64,36 @@ export function LessonPlayer({ lesson, moduleSlug }: Props) {
     return map;
   }, [lesson]);
 
-  const advance = () => {
-    if (currentIndex >= queue.length - 1) {
+  const advance = useCallback(() => {
+    const nextIndex = currentIndex + 1;
+
+    if (nextIndex >= queue.length) {
       setDone(true);
-    } else {
-      setCurrentIndex((i) => i + 1);
+      return;
     }
-  };
+
+    const currentEx = exerciseById[queue[currentIndex]];
+    const nextEx = exerciseById[queue[nextIndex]];
+    const transition = findTransition(currentEx?.type, nextEx?.type);
+
+    if (transition && !transitionShown[nextIndex]) {
+      setActiveTransition(transition);
+      setTransitionShown((t) => ({ ...t, [nextIndex]: true }));
+      return;
+    }
+
+    setCurrentIndex(nextIndex);
+  }, [currentIndex, queue, exerciseById, transitionShown]);
+
+  const handleTransitionContinue = useCallback(() => {
+    setActiveTransition(null);
+    setCurrentIndex((i) => i + 1);
+  }, []);
+
+  const handleTransitionBack = useCallback(() => {
+    setActiveTransition(null);
+    // Stay on current index — user returns to the last exercise they completed
+  }, []);
 
   const handleMeetNext = () => {
     const currentId = queue[currentIndex];
@@ -64,16 +120,13 @@ export function LessonPlayer({ lesson, moduleSlug }: Props) {
       return;
     }
 
-    // Wrong answer
     setStatuses((s) => ({ ...s, [currentId]: "wrong" }));
 
-    // If this is the second attempt or more, just advance (no infinite loop)
     if (attemptCount >= 2) {
       advance();
       return;
     }
 
-    // Otherwise, requeue at the end and advance
     setQueue((q) => [...q, currentId]);
     advance();
   };
@@ -100,12 +153,26 @@ export function LessonPlayer({ lesson, moduleSlug }: Props) {
         <LessonComplete
           lesson={lesson}
           moduleSlug={moduleSlug}
-          stats={{
-            total,
-            correctFirstTry,
-            reviewedAndGot,
-            needsReview,
-          }}
+          stats={{ total, correctFirstTry, reviewedAndGot, needsReview }}
+        />
+      </LessonShell>
+    );
+  }
+
+  if (activeTransition) {
+    return (
+      <LessonShell
+        moduleSlug={moduleSlug}
+        progressTotal={queue.length}
+        progressCurrent={currentIndex + 1}
+        showProgress
+      >
+        <PhaseTransitionScreen
+          eyebrow={activeTransition.eyebrow}
+          message={activeTransition.message}
+          onContinue={handleTransitionContinue}
+          onBack={handleTransitionBack}
+          canGoBack={currentIndex > 0}
         />
       </LessonShell>
     );
