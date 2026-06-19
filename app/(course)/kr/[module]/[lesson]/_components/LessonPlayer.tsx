@@ -6,6 +6,7 @@ import { LessonShell } from "./LessonShell";
 import { MeetScreen } from "./MeetScreen";
 import { RecallScreen } from "./RecallScreen";
 import { RecognizeScreen } from "./RecognizeScreen";
+import { ProduceScreen } from "./ProduceScreen";
 import { ExercisePlaceholder } from "./ExercisePlaceholder";
 import { LessonComplete } from "./LessonComplete";
 import { PhaseTransitionScreen } from "./PhaseTransitionScreen";
@@ -31,6 +32,12 @@ const PHASE_TRANSITIONS: PhaseTransition[] = [
     to: "recognize",
     eyebrow: "halfway",
     message: "Now we mix it up. Same letters, harder mode.",
+  },
+  {
+    from: "recognize",
+    to: "produce",
+    eyebrow: "last stretch",
+    message: "No more options. Type what you hear in your head. This is what makes it stick.",
   },
 ];
 
@@ -204,6 +211,13 @@ export function LessonPlayer({ lesson, moduleSlug }: Props) {
           onAnswer={handleAnswer}
         />
       )}
+      {exercise.type === "produce" && (
+        <ProduceScreen
+          key={exercise.id + currentIndex}
+          exercise={exercise}
+          onAnswer={handleAnswer}
+        />
+      )}
       {exercise.type === "recognize" && (
         <RecognizeScreen
           key={exercise.id + currentIndex}
@@ -211,7 +225,7 @@ export function LessonPlayer({ lesson, moduleSlug }: Props) {
           onAnswer={handleAnswer}
         />
       )}
-      {!["meet", "recall", "recognize"].includes(exercise.type) && (
+      {!["meet", "recall", "recognize", "produce"].includes(exercise.type) && (
         <ExercisePlaceholder
           key={exercise.id + currentIndex}
           exercise={exercise}
