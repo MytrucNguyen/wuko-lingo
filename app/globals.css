@@ -2014,3 +2014,396 @@ html, body {
   transform: translateY(1px);
   box-shadow: 0 2px 0 var(--shadow);
 }
+
+/* === ChoiceScreen: shared shell for Recall + Recognize === */
+.choice-screen {
+  width: 100%;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 28px;
+}
+
+.choice-display {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 200px;
+}
+
+.choice-letter {
+  font-family: var(--font-fraunces), serif;
+  font-size: clamp(120px, 22vw, 200px);
+  font-weight: 900;
+  line-height: 1;
+  color: var(--teal-deep);
+  background: var(--surface);
+  border: 3px solid var(--border);
+  border-radius: 32px;
+  padding: 48px 80px;
+  box-shadow: 8px 8px 0 var(--shadow);
+  transform: rotate(-1deg);
+}
+
+[data-theme="dark"] .choice-letter { color: var(--teal); }
+
+/* === Recognize speaker (big tap target, no card around it) === */
+.recognize-speaker {
+  width: 140px;
+  height: 140px;
+  border-radius: 50%;
+  background: var(--gold);
+  color: var(--ink);
+  border: 3px solid var(--border);
+  box-shadow: 6px 6px 0 var(--shadow);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.15s;
+  padding: 0;
+}
+
+[data-theme="dark"] .recognize-speaker { color: var(--bg); border-color: var(--gold); }
+
+.recognize-speaker:hover {
+  transform: translateY(-3px) rotate(8deg);
+  box-shadow: 6px 9px 0 var(--shadow);
+}
+
+.recognize-speaker:active {
+  transform: translateY(2px);
+  box-shadow: 4px 4px 0 var(--shadow);
+}
+
+.recognize-speaker:disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* === Options grid === */
+.choice-options {
+  display: grid;
+  gap: 12px;
+  width: 100%;
+  max-width: 520px;
+}
+
+.choice-options-count-2 { grid-template-columns: repeat(2, 1fr); }
+.choice-options-count-3 { grid-template-columns: repeat(3, 1fr); }
+.choice-options-count-4 { grid-template-columns: repeat(2, 1fr); }
+.choice-options-count-5 { grid-template-columns: repeat(3, 1fr); }
+.choice-options-count-6 { grid-template-columns: repeat(3, 1fr); }
+
+@media (max-width: 480px) {
+  .choice-options-count-4 { grid-template-columns: repeat(2, 1fr); }
+  .choice-options-count-5,
+  .choice-options-count-6 { grid-template-columns: repeat(2, 1fr); }
+}
+
+.choice-option {
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: 16px;
+  padding: 18px 16px;
+  box-shadow: 0 4px 0 var(--shadow);
+  cursor: pointer;
+  transition: all 0.15s;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  min-height: 72px;
+  font-family: var(--font-nunito), sans-serif;
+  color: var(--ink);
+}
+
+.choice-option:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 0 var(--shadow);
+}
+
+.choice-option:active:not(:disabled) {
+  transform: translateY(2px);
+  box-shadow: 0 1px 0 var(--shadow);
+}
+
+.choice-option:disabled { cursor: default; }
+
+.choice-option-word {
+  font-family: var(--font-fraunces), serif;
+  font-size: 22px;
+  font-weight: 800;
+  font-style: italic;
+  color: var(--ink);
+}
+
+.choice-option-phonetic {
+  font-size: 13px;
+  color: var(--ink-muted);
+  font-weight: 600;
+}
+
+.choice-option-letter {
+  font-family: var(--font-fraunces), serif;
+  font-size: 44px;
+  font-weight: 900;
+  color: var(--teal-deep);
+  line-height: 1;
+}
+
+[data-theme="dark"] .choice-option-letter { color: var(--teal); }
+
+/* === Feedback states === */
+.choice-option[data-state="correct"] {
+  background: var(--teal);
+  color: var(--bg);
+  border-color: var(--teal);
+  transform: scale(1.04);
+  animation: pulse-correct 0.4s ease-out;
+}
+
+[data-theme="light"] .choice-option[data-state="correct"] { color: white; }
+
+.choice-option[data-state="correct"] .choice-option-word,
+.choice-option[data-state="correct"] .choice-option-letter,
+.choice-option[data-state="correct"] .choice-option-phonetic {
+  color: inherit;
+}
+
+.choice-option[data-state="wrong"] {
+  background: var(--pink-deep);
+  color: white;
+  border-color: var(--pink-deep);
+  animation: shake-wrong 0.4s ease-out;
+}
+
+.choice-option[data-state="wrong"] .choice-option-word,
+.choice-option[data-state="wrong"] .choice-option-letter,
+.choice-option[data-state="wrong"] .choice-option-phonetic {
+  color: inherit;
+}
+
+.choice-option[data-state="show-correct"] {
+  background: var(--teal-soft);
+  border-color: var(--teal-deep);
+  border-width: 3px;
+}
+
+@keyframes pulse-correct {
+  0% { transform: scale(1); }
+  50% { transform: scale(1.08); }
+  100% { transform: scale(1.04); }
+}
+
+@keyframes shake-wrong {
+  0%, 100% { transform: translateX(0); }
+  25% { transform: translateX(-6px); }
+  75% { transform: translateX(6px); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .choice-option[data-state="correct"] { animation: none; transform: scale(1.04); }
+  .choice-option[data-state="wrong"] { animation: none; }
+}
+
+/* === Lesson complete stats === */
+.lesson-complete-stats {
+  display: flex;
+  gap: 16px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin: 8px 0 8px;
+}
+
+.lesson-stat {
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: 16px;
+  padding: 16px 24px;
+  box-shadow: 4px 4px 0 var(--shadow);
+  min-width: 100px;
+}
+
+.lesson-stat-correct { background: var(--teal-soft); }
+.lesson-stat-review { background: var(--gold-soft); }
+.lesson-stat-needs { background: var(--pink-soft); }
+
+.lesson-stat-num {
+  font-family: var(--font-fraunces), serif;
+  font-size: 36px;
+  font-weight: 900;
+  color: var(--ink);
+  line-height: 1;
+}
+
+.lesson-stat-label {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink-soft);
+  margin-top: 4px;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+/* === Meet: stacked letter + romanization === */
+.meet-letter-stack {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+.meet-letter-romanization {
+  font-family: var(--font-fraunces), serif;
+  font-size: 24px;
+  font-weight: 800;
+  color: var(--ink-soft);
+  font-style: italic;
+  letter-spacing: -0.01em;
+}
+
+/* === Meet: "sounds like" section inside dashed box === */
+.meet-mnemonic-eyebrow-pink {
+  color: var(--pink);
+}
+
+.meet-mnemonic-soundslike {
+  font-family: var(--font-fraunces), serif;
+  font-size: 20px;
+  color: var(--ink);
+  font-weight: 500;
+  margin-top: 4px;
+}
+
+.meet-mnemonic-soundslike strong {
+  font-style: italic;
+  font-weight: 800;
+}
+
+/* Hide the old standalone romanization block (we moved it inside the dashed card) */
+.meet-romanization { display: none; }
+
+/* Override the old stack-style romanization, make it floating between card and box */
+.meet-letter-romanization {
+  font-family: var(--font-fraunces), serif;
+  font-size: 28px;
+  font-weight: 800;
+  color: var(--ink);
+  font-style: italic;
+  letter-spacing: -0.01em;
+  text-align: center;
+  margin: -4px 0 -4px;
+}
+
+/* Hide the old stack wrapper rules — no longer wrapping */
+.meet-letter-stack { display: contents; }
+
+/* === Wrong-answer explicit correction text (Li 2010 explicit feedback) === */
+.choice-correction {
+  font-family: var(--font-fraunces), serif;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--ink-soft);
+  text-align: center;
+  animation: fade-in 0.2s ease-out;
+}
+
+.choice-correction strong {
+  font-style: italic;
+  font-weight: 800;
+  color: var(--ink);
+  font-size: 22px;
+}
+
+@keyframes fade-in {
+  from { opacity: 0; transform: translateY(-4px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .choice-correction { animation: none; }
+}
+
+/* === Wrong-answer correction: now a flex row with tappable replay === */
+.choice-correction {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  flex-wrap: wrap;
+  font-family: var(--font-fraunces), serif;
+  font-size: 18px;
+  font-weight: 500;
+  color: var(--ink-soft);
+  animation: fade-in 0.2s ease-out;
+}
+
+.choice-correction-replay {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  background: var(--surface);
+  border: 2px solid var(--border);
+  border-radius: 100px;
+  padding: 6px 14px 6px 12px;
+  cursor: pointer;
+  color: var(--ink-soft);
+  font-family: var(--font-nunito), sans-serif;
+  font-size: 13px;
+  font-weight: 700;
+  transition: all 0.15s;
+  box-shadow: 0 2px 0 var(--shadow);
+}
+
+.choice-correction-replay:hover {
+  transform: translateY(-1px);
+  box-shadow: 0 3px 0 var(--shadow);
+  color: var(--teal-deep);
+}
+
+[data-theme="dark"] .choice-correction-replay:hover { color: var(--teal); }
+
+.choice-correction-replay:active {
+  transform: translateY(1px);
+  box-shadow: 0 1px 0 var(--shadow);
+}
+
+/* === Tappable letter card (Recall) === */
+.choice-letter-tappable {
+  cursor: pointer;
+  font-family: var(--font-fraunces), serif;
+  border: 3px solid var(--border);
+  transition: all 0.15s;
+  position: relative;
+}
+
+.choice-letter-tappable:hover {
+  transform: rotate(-1deg) translateY(-3px);
+  box-shadow: 10px 11px 0 var(--shadow);
+}
+
+.choice-letter-tappable:active {
+  transform: rotate(-1deg) translateY(2px);
+  box-shadow: 6px 4px 0 var(--shadow);
+}
+
+.choice-letter-tappable::after {
+  content: "tap to hear";
+  position: absolute;
+  bottom: 12px;
+  right: 16px;
+  font-family: var(--font-caveat), cursive;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--ink-muted);
+  font-style: normal;
+  letter-spacing: 0;
+}
+
+/* === Choice nav row spacing === */
+.choice-nav {
+  margin-top: 8px;
+}
