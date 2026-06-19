@@ -8,7 +8,10 @@ export const consonants: Record<string, Consonant> = {
     ipa: "/k/",
     mnemonicHook: "gun",
     mnemonicShape: "Looks like the corner of a gun barrel pointing down and to the right.",
+    articulation: "Back of the tongue touches the soft palate, then releases. Like the g in go.",
+    soundsLike: { word: "go", phonetic: "g" },
     audioHint: "기역",
+    soundHint: "가",
   },
   nieun: {
     kind: "consonant",
@@ -17,7 +20,10 @@ export const consonants: Record<string, Consonant> = {
     ipa: "/n/",
     mnemonicHook: "nose",
     mnemonicShape: "Looks like an L. The tongue presses where the L's corner is.",
+    articulation: "Tip of the tongue presses behind the upper teeth. Like the n in no.",
+    soundsLike: { word: "no", phonetic: "n" },
     audioHint: "니은",
+    soundHint: "나",
   },
   mieum: {
     kind: "consonant",
@@ -26,7 +32,10 @@ export const consonants: Record<string, Consonant> = {
     ipa: "/m/",
     mnemonicHook: "mouth",
     mnemonicShape: "A closed box, like lips pressed together to make the m sound.",
+    articulation: "Lips press together gently, sound comes through the nose. Like the m in me.",
+    soundsLike: { word: "me", phonetic: "m" },
     audioHint: "미음",
+    soundHint: "마",
   },
   siot: {
     kind: "consonant",
@@ -35,6 +44,9 @@ export const consonants: Record<string, Consonant> = {
     ipa: "/s/",
     mnemonicHook: "sitting",
     mnemonicShape: "Two legs sitting down, slightly bent. The air hisses out between them.",
+    articulation: "Tongue near the roof of the mouth, air hisses through. Like the s in sun.",
+    soundsLike: { word: "sun", phonetic: "s" },
     audioHint: "시옷",
+    soundHint: "사",
   },
 };
