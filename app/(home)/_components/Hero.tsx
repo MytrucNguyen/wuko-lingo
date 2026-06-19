@@ -12,7 +12,7 @@ export function Hero() {
         <h1 className="hero-headline">
           Learn a <span className="underline-teal">language</span>
           <br />
-          one fun <span className="underline-gold">sound</span> at a time.
+          the way it&apos;s actually <span className="underline-gold">spoken</span>.
         </h1>
         <p className="hero-sub">
           Wuko Lingo makes learning a language feel less like school.
