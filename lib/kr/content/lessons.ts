@@ -5,6 +5,9 @@ import { vowels } from "./vowels";
 const FIRST_RECALL_NOTE =
   "Now we test what stuck. You will see a letter and pick the sound it makes. If you miss one, it will come back later in this lesson so you can try again. No pressure.";
 
+const FIRST_PRODUCE_NOTE =
+  "Last test of the lesson. No more options to pick from. Just type the sound the letter makes. Typing it out makes the memory stick deeper than picking from a list.";
+
 export const sixBasicVowels: Lesson = {
   id: "m1-l1",
   slug: "six-basic-vowels",
@@ -12,7 +15,7 @@ export const sixBasicVowels: Lesson = {
   title: "The six basic vowels",
   blurb: "ㅏ ㅓ ㅗ ㅜ ㅡ ㅣ. The foundation of every Korean syllable.",
   introduces: [vowels.a, vowels.eo, vowels.o, vowels.u, vowels.eu, vowels.i],
-  estimatedMinutes: 12,
+  estimatedMinutes: 14,
   exercises: [
     // Phase 1: Meet all six
     { id: "m1-l1-e1", type: "meet", prompt: "Meet ㅏ. Sound, shape, and how to make it.", target: vowels.a, estimatedSeconds: 25 },
@@ -21,7 +24,7 @@ export const sixBasicVowels: Lesson = {
     { id: "m1-l1-e4", type: "meet", prompt: "Meet ㅜ. The mirror of ㅗ.", target: vowels.u, estimatedSeconds: 25 },
     { id: "m1-l1-e5", type: "meet", prompt: "Meet ㅡ. Just a flat line.", target: vowels.eu, estimatedSeconds: 20 },
     { id: "m1-l1-e6", type: "meet", prompt: "Meet ㅣ. The simplest vowel of all.", target: vowels.i, estimatedSeconds: 20 },
-    // Phase 2: Paired retrieval
+    // Phase 2: Paired recall
     {
       id: "m1-l1-e7",
       type: "recall",
@@ -33,10 +36,21 @@ export const sixBasicVowels: Lesson = {
     },
     { id: "m1-l1-e8", type: "recall", prompt: "What sound does this letter make?", target: vowels.o, options: [vowels.o, vowels.u], estimatedSeconds: 15 },
     { id: "m1-l1-e9", type: "recall", prompt: "What sound does this letter make?", target: vowels.eu, options: [vowels.eu, vowels.i], estimatedSeconds: 15 },
-    // Phase 3: Interleaved retrieval
+    // Phase 3: Interleaved recognize (tests ㅓ, ㅜ, ㅣ — the mirror partners)
     { id: "m1-l1-e10", type: "recognize", prompt: "Which letter makes this sound?", target: vowels.eo, options: [vowels.a, vowels.eo, vowels.o, vowels.u, vowels.eu, vowels.i], estimatedSeconds: 20 },
     { id: "m1-l1-e11", type: "recognize", prompt: "Which letter makes this sound?", target: vowels.u, options: [vowels.a, vowels.eo, vowels.o, vowels.u, vowels.eu, vowels.i], estimatedSeconds: 20 },
     { id: "m1-l1-e12", type: "recognize", prompt: "Which letter makes this sound?", target: vowels.i, options: [vowels.a, vowels.eo, vowels.o, vowels.u, vowels.eu, vowels.i], estimatedSeconds: 20 },
+    // Phase 4: Produce (tests ㅏ, ㅗ, ㅡ — the letters recognize didn't cover)
+    {
+      id: "m1-l1-e13",
+      type: "produce",
+      prompt: "Type the sound this letter makes.",
+      target: vowels.a,
+      estimatedSeconds: 25,
+      note: FIRST_PRODUCE_NOTE,
+    },
+    { id: "m1-l1-e14", type: "produce", prompt: "Type the sound this letter makes.", target: vowels.o, estimatedSeconds: 20 },
+    { id: "m1-l1-e15", type: "produce", prompt: "Type the sound this letter makes.", target: vowels.eu, estimatedSeconds: 20 },
   ],
 };
 
@@ -47,7 +61,7 @@ export const yVowels: Lesson = {
   title: "The y-vowels",
   blurb: "ㅑ ㅕ ㅛ ㅠ. Add a dash, add a y sound.",
   introduces: [vowels.ya, vowels.yeo, vowels.yo, vowels.yu],
-  estimatedMinutes: 9,
+  estimatedMinutes: 11,
   exercises: [
     {
       id: "m1-l2-e1",
@@ -70,8 +84,19 @@ export const yVowels: Lesson = {
       note: FIRST_RECALL_NOTE,
     },
     { id: "m1-l2-e6", type: "recall", prompt: "What sound does this letter make?", target: vowels.yo, options: [vowels.yo, vowels.yu], estimatedSeconds: 15 },
+    // Recognize tests ㅕ, ㅠ
     { id: "m1-l2-e7", type: "recognize", prompt: "Which letter makes this sound?", target: vowels.yeo, options: [vowels.ya, vowels.yeo, vowels.yo, vowels.yu], estimatedSeconds: 20 },
     { id: "m1-l2-e8", type: "recognize", prompt: "Which letter makes this sound?", target: vowels.yu, options: [vowels.ya, vowels.yeo, vowels.yo, vowels.yu], estimatedSeconds: 20 },
+    // Produce tests ㅑ, ㅛ
+    {
+      id: "m1-l2-e9",
+      type: "produce",
+      prompt: "Type the sound this letter makes.",
+      target: vowels.ya,
+      estimatedSeconds: 25,
+      note: FIRST_PRODUCE_NOTE,
+    },
+    { id: "m1-l2-e10", type: "produce", prompt: "Type the sound this letter makes.", target: vowels.yo, estimatedSeconds: 20 },
   ],
 };
 
@@ -82,7 +107,7 @@ export const firstFourConsonants: Lesson = {
   title: "First four consonants",
   blurb: "ㄱ ㄴ ㅁ ㅅ. Now that you know the vowels, the consonants click into place.",
   introduces: [consonants.giyeok, consonants.nieun, consonants.mieum, consonants.siot],
-  estimatedMinutes: 10,
+  estimatedMinutes: 12,
   exercises: [
     {
       id: "m1-l3-e1",
@@ -105,7 +130,18 @@ export const firstFourConsonants: Lesson = {
       note: FIRST_RECALL_NOTE,
     },
     { id: "m1-l3-e6", type: "recall", prompt: "What sound does this letter make?", target: consonants.mieum, options: [consonants.mieum, consonants.siot], estimatedSeconds: 15 },
+    // Recognize tests ㄴ, ㅅ
     { id: "m1-l3-e7", type: "recognize", prompt: "Which letter makes this sound?", target: consonants.nieun, options: [consonants.giyeok, consonants.nieun, consonants.mieum, consonants.siot], estimatedSeconds: 20 },
     { id: "m1-l3-e8", type: "recognize", prompt: "Which letter makes this sound?", target: consonants.siot, options: [consonants.giyeok, consonants.nieun, consonants.mieum, consonants.siot], estimatedSeconds: 20 },
+    // Produce tests ㄱ, ㅁ
+    {
+      id: "m1-l3-e9",
+      type: "produce",
+      prompt: "Type the sound this letter makes.",
+      target: consonants.giyeok,
+      estimatedSeconds: 25,
+      note: FIRST_PRODUCE_NOTE,
+    },
+    { id: "m1-l3-e10", type: "produce", prompt: "Type the sound this letter makes.", target: consonants.mieum, estimatedSeconds: 20 },
   ],
 };
