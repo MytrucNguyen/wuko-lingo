@@ -1550,3 +1550,8 @@ html, body {
     height: 100px;
   }
 }
+
+/* === Courses page wrapper === */
+.courses-page {
+  padding-top: 24px;
+}
