@@ -1448,3 +1448,105 @@ html, body {
   .exercise-time { grid-column: 2; }
   .exercise-prompt { grid-column: 1 / -1; }
 }
+
+
+/* === WukoNote size-lg: Wuko at bottom, original prose sizing === */
+.wuko-note.size-lg {
+  display: block;
+  padding: 28px 32px;
+}
+
+.wuko-note.size-lg .wuko-note-body { min-width: 0; }
+
+.wuko-note.size-lg .wuko-note-label {
+  font-size: 24px;
+  margin-bottom: 12px;
+}
+
+.wuko-note.size-lg .wuko-note-content {
+  font-size: 15px;
+  color: var(--ink-soft);
+  font-weight: 500;
+  line-height: 1.6;
+}
+
+.wuko-note.size-lg .wuko-note-content p {
+  margin-bottom: 14px;
+}
+
+.wuko-note.size-lg .wuko-note-content p:last-child {
+  margin-bottom: 0;
+}
+
+.wuko-note.size-lg .wuko-note-mascot {
+  width: 100px;
+  height: 100px;
+  margin: 24px auto 0;
+  display: flex;
+  justify-content: center;
+}
+
+.wuko-note.size-lg .wuko-note-img {
+  width: 100px;
+  height: 100px;
+}
+
+@media (max-width: 720px) {
+  .wuko-note.size-lg {
+    padding: 22px 22px;
+  }
+  .wuko-note.size-lg .wuko-note-mascot {
+    width: 80px;
+    height: 80px;
+  }
+  .wuko-note.size-lg .wuko-note-img {
+    width: 80px;
+    height: 80px;
+  }
+  .wuko-note.size-lg .wuko-note-label {
+    font-size: 22px;
+  }
+  .wuko-note.size-lg .wuko-note-content {
+    font-size: 14px;
+  }
+}
+
+/* History title inside the WukoNote */
+.wuko-note-title {
+  font-family: var(--font-fraunces), serif;
+  font-size: clamp(28px, 4vw, 36px);
+  font-weight: 900;
+  letter-spacing: -0.025em;
+  color: var(--ink);
+  margin-bottom: 20px;
+  line-height: 1.1;
+}
+
+/* === HowItWorks mascots (replaces .how-card-icon) === */
+.how-card-mascot {
+  width: 120px;
+  height: 120px;
+  margin: 16px auto;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.how-card-mascot img {
+  width: 120px;
+  height: 120px;
+  object-fit: contain;
+  display: block;
+}
+
+@media (max-width: 720px) {
+  .how-card-mascot {
+    width: 100px;
+    height: 100px;
+    margin: 12px auto 14px;
+  }
+  .how-card-mascot img {
+    width: 100px;
+    height: 100px;
+  }
+}
