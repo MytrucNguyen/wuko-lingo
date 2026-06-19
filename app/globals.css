@@ -2407,3 +2407,107 @@ html, body {
 .choice-nav {
   margin-top: 8px;
 }
+
+/* === Phase transition screen: Wuko interjects between phases === */
+.phase-transition {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  padding: 32px 24px;
+  text-align: center;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  width: 100%;
+  font-family: inherit;
+  animation: phase-fade-in 0.4s ease-out;
+}
+
+.phase-transition-mascot {
+  width: 180px;
+  height: 180px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  animation: phase-bounce 0.6s ease-out 0.1s both;
+}
+
+.phase-transition-mascot img {
+  width: 180px;
+  height: 180px;
+  object-fit: contain;
+}
+
+.phase-transition-eyebrow {
+  font-family: var(--font-caveat), cursive;
+  font-size: 32px;
+  color: var(--pink);
+  font-weight: 700;
+  transform: rotate(-2deg);
+  margin-top: 8px;
+}
+
+.phase-transition-message {
+  font-family: var(--font-fraunces), serif;
+  font-size: clamp(22px, 3vw, 28px);
+  font-weight: 800;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  line-height: 1.25;
+  max-width: 480px;
+}
+
+.phase-transition-hint {
+  font-size: 13px;
+  font-weight: 600;
+  color: var(--ink-muted);
+  margin-top: 8px;
+  letter-spacing: 0.02em;
+}
+
+@keyframes phase-fade-in {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes phase-bounce {
+  0% { transform: scale(0.7) translateY(20px); opacity: 0; }
+  60% { transform: scale(1.05) translateY(-8px); opacity: 1; }
+  100% { transform: scale(1) translateY(0); opacity: 1; }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .phase-transition { animation: none; }
+  .phase-transition-mascot { animation: none; }
+}
+
+@media (max-width: 520px) {
+  .phase-transition-mascot { width: 140px; height: 140px; }
+  .phase-transition-mascot img { width: 140px; height: 140px; }
+  .phase-transition-eyebrow { font-size: 28px; }
+}
+
+/* === Phase transition: bigger mascot, dedicated nav === */
+.phase-transition {
+  cursor: default;
+}
+
+.phase-transition-mascot {
+  width: 260px;
+  height: 260px;
+}
+
+.phase-transition-mascot img {
+  width: 260px;
+  height: 260px;
+}
+
+/* Hide the old tap-anywhere hint */
+.phase-transition-hint { display: none; }
+
+@media (max-width: 520px) {
+  .phase-transition-mascot { width: 200px; height: 200px; }
+  .phase-transition-mascot img { width: 200px; height: 200px; }
+}
