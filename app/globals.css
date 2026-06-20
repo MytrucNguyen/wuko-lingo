@@ -2575,3 +2575,202 @@ html, body {
   .produce-input-wrap[data-state="correct"],
   .produce-input-wrap[data-state="wrong"] { animation: none; }
 }
+
+/* === Progress: dots on desktop, bar on mobile === */
+.lesson-progress-dots {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: nowrap;
+}
+
+.lesson-progress-bar {
+  display: none;
+  align-items: center;
+  gap: 12px;
+  width: 100%;
+}
+
+.lesson-progress-bar-track {
+  flex: 1;
+  height: 10px;
+  background: var(--border-soft);
+  border: 2px solid var(--border);
+  border-radius: 100px;
+  overflow: hidden;
+  position: relative;
+}
+
+.lesson-progress-bar-fill {
+  height: 100%;
+  background: linear-gradient(90deg, var(--teal) 0%, var(--gold) 100%);
+  border-radius: 100px;
+  transition: width 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.lesson-progress-bar-label {
+  font-family: var(--font-nunito), sans-serif;
+  font-size: 13px;
+  font-weight: 800;
+  color: var(--ink-soft);
+  white-space: nowrap;
+  min-width: 44px;
+  text-align: right;
+}
+
+
+
+/* === Progress: dots on mobile, bar on desktop (flipped) === */
+@media (max-width: 640px) {
+  .lesson-progress-dots {
+    display: flex;
+    gap: 4px;
+  }
+  .lesson-progress-dot {
+    width: 16px;
+    height: 6px;
+  }
+  .lesson-progress-bar { display: none; }
+}
+
+@media (min-width: 641px) {
+  .lesson-progress-dots { display: none; }
+  .lesson-progress-bar { display: flex; }
+}
+
+/* === Exit confirmation modal === */
+.exit-modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 100;
+  animation: backdrop-fade 0.18s ease-out;
+}
+
+.exit-modal {
+  background: var(--surface);
+  border: 3px solid var(--border);
+  border-radius: 24px;
+  padding: 32px 32px 28px;
+  box-shadow: 8px 10px 0 var(--shadow);
+  max-width: 440px;
+  width: 100%;
+  text-align: center;
+  transform: rotate(-0.5deg);
+  animation: modal-pop 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.exit-modal-title {
+  font-family: var(--font-fraunces), serif;
+  font-size: clamp(24px, 4vw, 30px);
+  font-weight: 900;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  margin-bottom: 12px;
+  line-height: 1.15;
+}
+
+.exit-modal-body {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ink-soft);
+  line-height: 1.5;
+  margin-bottom: 24px;
+}
+
+.exit-modal-actions {
+  display: flex;
+  gap: 12px;
+  flex-direction: row;
+}
+@keyframes backdrop-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modal-pop {
+  from {
+    opacity: 0;
+    transform: rotate(-0.5deg) scale(0.92) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(-0.5deg) scale(1) translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .exit-modal-backdrop,
+  .exit-modal {
+    animation: none;
+  }
+}
+
+/* Desktop layout: buttons side by side */
+@media (min-width: 480px) {
+  .exit-modal-actions {
+    flex-direction: row;
+    justify-content: center;
+  }
+  .exit-modal-actions .btn { flex: 1; }
+}
+
+/* === Revert: kill gradient bar, dots only on every screen size === */
+.lesson-progress-dots,
+.lesson-progress-bar,
+.lesson-progress-bar-track,
+.lesson-progress-bar-fill,
+.lesson-progress-bar-label {
+  display: none !important;
+}
+
+/* Restore the original dot row */
+.lesson-progress {
+  display: flex !important;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  flex-wrap: nowrap;
+  flex: 1;
+}
+
+/* Mobile: shrink dots so they fit at narrow widths */
+@media (max-width: 640px) {
+  .lesson-progress { gap: 4px; }
+  .lesson-progress-dot {
+    width: 8px !important;
+    height: 8px !important;
+  }
+}
+
+/* === Destructive button variant: same DNA as primary, pink-deep instead of teal === */
+.btn-destructive {
+  background: var(--pink-deep);
+  color: white;
+  box-shadow: 0 5px 0 var(--shadow);
+}
+
+[data-theme="dark"] .btn-destructive {
+  border-color: var(--pink-deep);
+}
+
+.btn-destructive:hover {
+  transform: translateY(-2px) rotate(-1deg);
+  box-shadow: 0 7px 0 var(--shadow);
+}
+
+.btn-destructive:active {
+  transform: translateY(3px);
+  box-shadow: 0 2px 0 var(--shadow);
+}
+
+/* === Center button content inside the exit modal === */
+.exit-modal-actions .btn {
+  justify-content: center;
+}
