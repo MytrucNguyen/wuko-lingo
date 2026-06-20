@@ -12,11 +12,20 @@ type Props = {
   lesson: Lesson;
   moduleSlug: string;
   stats: Stats;
+  nextLessonSlug?: string;
+  nextLessonTitle?: string;
 };
 
-export function LessonComplete({ lesson, moduleSlug, stats }: Props) {
+export function LessonComplete({
+  lesson,
+  moduleSlug,
+  stats,
+  nextLessonSlug,
+  nextLessonTitle,
+}: Props) {
   const allCorrect = stats.needsReview === 0 && stats.reviewedAndGot === 0;
   const someStruggle = stats.reviewedAndGot > 0 || stats.needsReview > 0;
+  const hasNext = !!nextLessonSlug;
 
   return (
     <div className="lesson-complete">
@@ -50,8 +59,19 @@ export function LessonComplete({ lesson, moduleSlug, stats }: Props) {
       </div>
 
       <div className="lesson-complete-actions">
-        <Button variant="primary" href={`/kr/${moduleSlug}`}>Back to module</Button>
-        <Button variant="ghost" href="/kr">Korean course</Button>
+        {hasNext ? (
+          <>
+            <Button variant="ghost" href={`/kr/${moduleSlug}`}>Back to module</Button>
+            <Button variant="primary" href={`/kr/${moduleSlug}/${nextLessonSlug}`}>
+              Continue to {nextLessonTitle ? `"${nextLessonTitle}"` : "next lesson"}
+            </Button>
+          </>
+        ) : (
+          <>
+            <Button variant="ghost" href="/kr">Korean course</Button>
+            <Button variant="primary" href={`/kr/${moduleSlug}`}>Back to module</Button>
+          </>
+        )}
       </div>
     </div>
   );
