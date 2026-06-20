@@ -2,14 +2,12 @@
 
 import { useState, useEffect, useRef, type ReactNode } from "react";
 import { WukoNote } from "@/components/WukoNote";
+import { IconButton } from "@/components/IconButton";
 import { useSoundFeedback } from "@/lib/kr/useSoundFeedback";
 import { useSpeech } from "@/lib/kr/useSpeech";
 import type { Jamo } from "@/lib/kr/types";
 
-type Option = {
-  jamo: Jamo;
-  label: ReactNode;
-};
+type Option = { jamo: Jamo; label: ReactNode };
 
 type Props = {
   prompt: string;
@@ -29,7 +27,7 @@ export function ChoiceScreen({ prompt, note, display, options, correctJamo, onAn
   const [revealed, setRevealed] = useState(false);
   const [wasCorrect, setWasCorrect] = useState<boolean | null>(null);
   const { playCorrect, playWrong } = useSoundFeedback();
-  const { speak, supported: speechSupported } = useSpeech();
+  const { speak, supported: speechSupported, voicesLoading, speaking } = useSpeech();
   const advanceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
@@ -47,14 +45,11 @@ export function ChoiceScreen({ prompt, note, display, options, correctJamo, onAn
     setSelected(jamo.char);
     setRevealed(true);
     setWasCorrect(isCorrect);
-
     if (isCorrect) {
       playCorrect();
-      // Auto-advance on correct, but user can tap forward to skip the wait
       advanceTimerRef.current = setTimeout(() => onAnswer(true), 900);
     } else {
       playWrong();
-      // No auto-advance on wrong — user advances manually when ready
     }
   };
 
@@ -82,9 +77,7 @@ export function ChoiceScreen({ prompt, note, display, options, correctJamo, onAn
   return (
     <div className="choice-screen">
       {note && <WukoNote label="how this works">{note}</WukoNote>}
-
       <p className="meet-screen-prompt">{prompt}</p>
-
       <div className="choice-display">{display}</div>
 
       <div className={`choice-options choice-options-count-${options.length}`}>
@@ -103,21 +96,20 @@ export function ChoiceScreen({ prompt, note, display, options, correctJamo, onAn
 
       {wasWrong && (
         <div className="choice-correction">
-          <span>
-            It was <strong>{correctJamo.romanization}</strong>
-          </span>
+          <span>It was <strong>{correctJamo.romanization}</strong></span>
           {speechSupported && (
             <button
               className="choice-correction-replay"
               onClick={handleReplay}
               aria-label="Hear the correct sound"
+              disabled={voicesLoading}
             >
               <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
                 <path d="M3 10 L3 14 L7 14 L12 18 L12 6 L7 10 Z" fill="currentColor" />
                 <path d="M15 9 Q17 12 15 15" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" />
                 <path d="M17 7 Q21 12 17 17" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" />
               </svg>
-              <span>hear it</span>
+              <span>{speaking ? "playing" : "hear it"}</span>
             </button>
           )}
         </div>
@@ -125,15 +117,11 @@ export function ChoiceScreen({ prompt, note, display, options, correctJamo, onAn
 
       {revealed && (
         <div className="meet-nav choice-nav">
-          <button
-            className="meet-nav-btn meet-nav-forward"
-            onClick={handleAdvance}
-            aria-label="Continue"
-          >
+          <IconButton variant="primary" onClick={handleAdvance} ariaLabel="Continue">
             <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
               <path d="M9 5 L17 12 L9 19" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
             </svg>
-          </button>
+          </IconButton>
         </div>
       )}
     </div>

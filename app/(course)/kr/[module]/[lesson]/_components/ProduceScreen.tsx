@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef } from "react";
 import { useSoundFeedback } from "@/lib/kr/useSoundFeedback";
 import { useSpeech } from "@/lib/kr/useSpeech";
+import { IconButton } from "@/components/IconButton";
 import { WukoNote } from "@/components/WukoNote";
 import type { Exercise, Jamo } from "@/lib/kr/types";
 
@@ -22,13 +23,8 @@ function normalize(s: string): string {
 function getAcceptedAnswers(jamo: Jamo): string[] {
   const answers = new Set<string>();
   answers.add(normalize(jamo.romanization));
-
-  // Romanization may have alternates separated by /
   jamo.romanization.split("/").forEach((part) => answers.add(normalize(part)));
-
-  if (jamo.soundsLike) {
-    answers.add(normalize(jamo.soundsLike.phonetic));
-  }
+  if (jamo.soundsLike) answers.add(normalize(jamo.soundsLike.phonetic));
   return Array.from(answers).filter(Boolean);
 }
 
@@ -43,18 +39,15 @@ export function ProduceScreen({ exercise, onAnswer }: Props) {
   const { speak, supported: speechSupported } = useSpeech();
   const inputRef = useRef<HTMLInputElement>(null);
   const advanceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
-
   const [value, setValue] = useState("");
   const [revealed, setRevealed] = useState(false);
   const [wasCorrect, setWasCorrect] = useState<boolean | null>(null);
-
   const target = exercise.target;
 
   useEffect(() => {
     setValue("");
     setRevealed(false);
     setWasCorrect(null);
-    // Auto-focus the input on mount
     const t = setTimeout(() => inputRef.current?.focus(), 100);
     return () => {
       clearTimeout(t);
@@ -69,7 +62,6 @@ export function ProduceScreen({ exercise, onAnswer }: Props) {
     const correct = isAcceptable(value, target);
     setRevealed(true);
     setWasCorrect(correct);
-
     if (correct) {
       playCorrect();
       advanceTimerRef.current = setTimeout(() => onAnswer(true), 900);
@@ -102,10 +94,7 @@ export function ProduceScreen({ exercise, onAnswer }: Props) {
 
   return (
     <div className="produce-screen">
-      {exercise.note && (
-        <WukoNote label="how this works">{exercise.note}</WukoNote>
-      )}
-
+      {exercise.note && <WukoNote label="how this works">{exercise.note}</WukoNote>}
       <p className="meet-screen-prompt">{exercise.prompt}</p>
 
       <button
@@ -137,9 +126,7 @@ export function ProduceScreen({ exercise, onAnswer }: Props) {
 
       {revealed && wasCorrect === false && (
         <div className="choice-correction">
-          <span>
-            It was <strong>{target.romanization}</strong>
-          </span>
+          <span>It was <strong>{target.romanization}</strong></span>
           {speechSupported && (
             <button
               className="choice-correction-replay"
@@ -158,17 +145,16 @@ export function ProduceScreen({ exercise, onAnswer }: Props) {
       )}
 
       <div className="meet-nav choice-nav">
-        <button
-          className="meet-nav-btn meet-nav-forward"
+        <IconButton
+          variant="primary"
           onClick={revealed ? handleAdvance : handleSubmit}
           disabled={!revealed && !value.trim()}
-          aria-label={revealed ? "Continue" : "Submit"}
-          type="button"
+          ariaLabel={revealed ? "Continue" : "Submit"}
         >
           <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
             <path d="M9 5 L17 12 L9 19" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
           </svg>
-        </button>
+        </IconButton>
       </div>
     </div>
   );

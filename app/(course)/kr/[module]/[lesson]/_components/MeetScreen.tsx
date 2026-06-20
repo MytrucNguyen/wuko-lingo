@@ -2,6 +2,7 @@
 
 import { useEffect } from "react";
 import { useSpeech } from "@/lib/kr/useSpeech";
+import { IconButton } from "@/components/IconButton";
 import { WukoNote } from "@/components/WukoNote";
 import type { Exercise } from "@/lib/kr/types";
 
@@ -22,7 +23,7 @@ function highlightHangul(text: string) {
 }
 
 export function MeetScreen({ exercise, onNext, onBack, canGoBack }: Props) {
-  const { speak, supported } = useSpeech();
+  const { speak, supported, voicesLoading, speaking } = useSpeech();
   const target = exercise.target;
 
   const audioText =
@@ -34,15 +35,11 @@ export function MeetScreen({ exercise, onNext, onBack, canGoBack }: Props) {
 
   useEffect(() => {
     if (!audioText) return;
-    const timer = setTimeout(() => {
-      speak(audioText);
-    }, 400);
+    const timer = setTimeout(() => speak(audioText), 400);
     return () => clearTimeout(timer);
   }, [audioText, speak]);
 
-  if (typeof target === "string") {
-    return null;
-  }
+  if (typeof target === "string") return null;
 
   const handleReplay = () => {
     if (audioText) speak(audioText);
@@ -54,9 +51,7 @@ export function MeetScreen({ exercise, onNext, onBack, canGoBack }: Props) {
 
   return (
     <div className="meet-screen">
-      {exercise.note && (
-        <WukoNote label="quick note">{exercise.note}</WukoNote>
-      )}
+      {exercise.note && <WukoNote label="quick note">{exercise.note}</WukoNote>}
 
       <p className="meet-screen-prompt">{highlightHangul(exercise.prompt)}</p>
 
@@ -64,9 +59,10 @@ export function MeetScreen({ exercise, onNext, onBack, canGoBack }: Props) {
         <div className="meet-letter">{target.char}</div>
         <button
           className="meet-speaker"
+          data-state={voicesLoading ? "loading" : speaking ? "playing" : "idle"}
           onClick={handleReplay}
-          aria-label="Replay sound"
-          disabled={!supported}
+          aria-label={voicesLoading ? "Loading audio" : speaking ? "Playing" : "Replay sound"}
+          disabled={!supported || voicesLoading}
         >
           <svg viewBox="0 0 24 24" width="28" height="28" aria-hidden="true">
             <path d="M3 10 L3 14 L7 14 L12 18 L12 6 L7 10 Z" fill="currentColor" />
@@ -87,7 +83,6 @@ export function MeetScreen({ exercise, onNext, onBack, canGoBack }: Props) {
             </p>
           </div>
         )}
-
         {showMnemonic && (
           <div className={`meet-mnemonic-section ${target.soundsLike ? "meet-mnemonic-section-divider" : ""}`}>
             <span className="meet-mnemonic-eyebrow">remember it as</span>
@@ -95,7 +90,6 @@ export function MeetScreen({ exercise, onNext, onBack, canGoBack }: Props) {
             <p className="meet-mnemonic-shape">{target.mnemonicShape}</p>
           </div>
         )}
-
         {target.articulation && (
           <div className={`meet-mnemonic-section ${target.soundsLike || showMnemonic ? "meet-mnemonic-section-divider" : ""}`}>
             <span className="meet-mnemonic-eyebrow meet-mnemonic-eyebrow-teal">how to make the sound</span>
@@ -105,25 +99,16 @@ export function MeetScreen({ exercise, onNext, onBack, canGoBack }: Props) {
       </div>
 
       <div className="meet-nav">
-        <button
-          className="meet-nav-btn meet-nav-back"
-          onClick={onBack}
-          disabled={!canGoBack}
-          aria-label="Previous exercise"
-        >
+        <IconButton variant="ghost" onClick={onBack} disabled={!canGoBack} ariaLabel="Previous exercise">
           <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
             <path d="M15 5 L7 12 L15 19" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
           </svg>
-        </button>
-        <button
-          className="meet-nav-btn meet-nav-forward"
-          onClick={onNext}
-          aria-label="Next exercise"
-        >
+        </IconButton>
+        <IconButton variant="primary" onClick={onNext} ariaLabel="Next exercise">
           <svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true">
             <path d="M9 5 L17 12 L9 19" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round" fill="none" />
           </svg>
-        </button>
+        </IconButton>
       </div>
 
       {!supported && (
