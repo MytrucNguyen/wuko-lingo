@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect } from "react";
+import { Modal } from "@/components/Modal";
 import { Button } from "@/components/Button";
 
 type Props = {
@@ -10,44 +10,29 @@ type Props = {
 };
 
 export function ExitConfirmModal({ moduleSlug, open, onCancel }: Props) {
-  useEffect(() => {
-    if (!open) return;
-    const onKey = (e: KeyboardEvent) => {
-      if (e.key === "Escape") onCancel();
-    };
-    window.addEventListener("keydown", onKey);
-    return () => window.removeEventListener("keydown", onKey);
-  }, [open, onCancel]);
-
-  if (!open) return null;
-
   return (
-    <div
-      className="exit-modal-backdrop"
-      onClick={onCancel}
-      role="dialog"
-      aria-modal="true"
-      aria-labelledby="exit-modal-title"
+    <Modal
+      open={open}
+      onClose={onCancel}
+      ariaLabelledBy="exit-modal-title"
+      size="sm"
     >
-      <div
-        className="exit-modal"
-        onClick={(e) => e.stopPropagation()}
-      >
-        <h2 id="exit-modal-title" className="exit-modal-title">
-          Leave this lesson?
-        </h2>
-        <p className="exit-modal-body">
+      <h2 id="exit-modal-title" className="modal-title">
+        Leave this lesson?
+      </h2>
+      <Modal.Body>
+        <p className="modal-text">
           Your progress in this lesson will not be saved. You can come back and start it again any time.
         </p>
-        <div className="exit-modal-actions">
-          <Button variant="destructive" href={`/kr/${moduleSlug}`}>
-            Leave lesson
-          </Button>
-          <Button variant="primary" onClick={onCancel}>
-            Keep going
-          </Button>
-        </div>
-      </div>
-    </div>
+      </Modal.Body>
+      <Modal.Actions>
+        <Button variant="destructive" href={`/kr/${moduleSlug}`}>
+          Leave lesson
+        </Button>
+        <Button variant="primary" onClick={onCancel}>
+          Keep going
+        </Button>
+      </Modal.Actions>
+    </Modal>
   );
 }
