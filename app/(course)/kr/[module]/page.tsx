@@ -30,28 +30,43 @@ export default async function ModulePage({
           <p className="module-blurb">{mod.blurb}</p>
         </header>
 
-        <section className="lessons-section">
-          <h2 className="section-title-left">Lessons</h2>
-          <div className="lessons-list">
-            {mod.lessons.map((lesson, i) => (
-              <Link
-                key={lesson.id}
-                href={`/kr/${mod.slug}/${lesson.slug}`}
-                className="lesson-card"
-              >
-                <div className="lesson-card-num">{lesson.number}</div>
-                <div className="lesson-card-body">
-                  <h3 className="lesson-card-title">{lesson.title}</h3>
-                  <p className="lesson-card-blurb">{lesson.blurb}</p>
-                </div>
-                <div className="lesson-card-meta">
-                  <strong>{lesson.exercises.length} exercises</strong>
-                  <span>~{lesson.estimatedMinutes} min</span>
-                </div>
-                {i === 0 && <div className="lesson-badge">Start here</div>}
-              </Link>
-            ))}
-          </div>
+        <section className="lesson-path">
+          <h2 className="section-title-left">Your path</h2>
+          <ol className="path-list">
+            {mod.lessons.map((lesson, i) => {
+              const side = i % 2 === 0 ? "left" : "right";
+              const isFirst = i === 0;
+              const isLast = i === mod.lessons.length - 1;
+              return (
+                <li
+                  key={lesson.id}
+                  className={`path-node path-node-${side}`}
+                  data-first={isFirst || undefined}
+                  data-last={isLast || undefined}
+                >
+                  {!isFirst && <span className="path-connector" aria-hidden="true" />}
+                  <Link
+                    href={`/kr/${mod.slug}/${lesson.slug}`}
+                    className="path-link"
+                  >
+                    <div className="path-circle">
+                      <span className="path-num">{lesson.number}</span>
+                    </div>
+                    <div className="path-card">
+                      {isFirst && <div className="path-badge">Start here</div>}
+                      <h3 className="path-title">{lesson.title}</h3>
+                      <p className="path-blurb">{lesson.blurb}</p>
+                      <div className="path-meta">
+                        <span>{lesson.exercises.length} exercises</span>
+                        <span className="path-meta-dot" aria-hidden="true">·</span>
+                        <span>~{lesson.estimatedMinutes} min</span>
+                      </div>
+                    </div>
+                  </Link>
+                </li>
+              );
+            })}
+          </ol>
         </section>
       </main>
       <Footer />
