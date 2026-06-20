@@ -15,5 +15,15 @@ export default async function LessonPage({
     notFound();
   }
 
-  return <LessonPlayer lesson={lesson} moduleSlug={mod.slug} />;
+  const currentIndex = mod.lessons.findIndex((l) => l.slug === lessonSlug);
+  const nextLesson = mod.lessons[currentIndex + 1];
+
+  return (
+    <LessonPlayer
+      lesson={lesson}
+      moduleSlug={mod.slug}
+      nextLessonSlug={nextLesson?.slug}
+      nextLessonTitle={nextLesson?.title}
+    />
+  );
 }
