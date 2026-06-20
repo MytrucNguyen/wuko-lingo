@@ -3166,3 +3166,108 @@ html, body {
 .meet-nav-btn,
 .meet-nav-back,
 .meet-nav-forward { display: none !important; }
+
+/* === Modal: reusable primitive (replaces .exit-modal-*) === */
+.modal-backdrop {
+  position: fixed;
+  inset: 0;
+  background: rgba(15, 23, 42, 0.45);
+  backdrop-filter: blur(4px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  z-index: 100;
+  animation: modal-backdrop-fade 0.18s ease-out;
+}
+
+.modal {
+  background: var(--surface);
+  border: 3px solid var(--border);
+  border-radius: 24px;
+  padding: 32px 32px 28px;
+  box-shadow: 8px 10px 0 var(--shadow);
+  width: 100%;
+  text-align: center;
+  transform: rotate(-0.5deg);
+  animation: modal-pop-in 0.22s cubic-bezier(0.34, 1.56, 0.64, 1);
+  max-height: calc(100vh - 48px);
+  overflow-y: auto;
+}
+
+.modal-size-sm { max-width: 440px; }
+.modal-size-md { max-width: 560px; }
+.modal-size-lg { max-width: 720px; }
+
+.modal-title {
+  font-family: var(--font-fraunces), serif;
+  font-size: clamp(24px, 4vw, 30px);
+  font-weight: 900;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  margin-bottom: 12px;
+  line-height: 1.15;
+}
+
+.modal-body {
+  margin-bottom: 24px;
+}
+
+.modal-text {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--ink-soft);
+  line-height: 1.5;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  flex-direction: column;
+}
+
+.modal-actions .btn {
+  justify-content: center;
+}
+
+@keyframes modal-backdrop-fade {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes modal-pop-in {
+  from {
+    opacity: 0;
+    transform: rotate(-0.5deg) scale(0.92) translateY(8px);
+  }
+  to {
+    opacity: 1;
+    transform: rotate(-0.5deg) scale(1) translateY(0);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .modal-backdrop,
+  .modal {
+    animation: none;
+  }
+}
+
+@media (min-width: 480px) {
+  .modal-actions {
+    flex-direction: row;
+    justify-content: center;
+  }
+  .modal-actions .btn {
+    flex: 1;
+  }
+}
+
+/* Hide the old exit-modal-* classes (now replaced by .modal-*) */
+.exit-modal-backdrop,
+.exit-modal,
+.exit-modal-title,
+.exit-modal-body,
+.exit-modal-actions {
+  display: none !important;
+}
