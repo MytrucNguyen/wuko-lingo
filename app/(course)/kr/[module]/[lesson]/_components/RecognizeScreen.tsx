@@ -24,7 +24,7 @@ function audioFor(jamo: Jamo) {
 }
 
 export function RecognizeScreen({ exercise, onAnswer }: Props) {
-  const { speak, supported } = useSpeech();
+  const { speak, supported, voicesLoading, speaking } = useSpeech();
   const target = exercise.target;
   const audioText = typeof target === "string" ? null : audioFor(target);
 
@@ -60,9 +60,10 @@ export function RecognizeScreen({ exercise, onAnswer }: Props) {
       display={
         <button
           className="recognize-speaker"
+          data-state={voicesLoading ? "loading" : speaking ? "playing" : "idle"}
           onClick={handleReplay}
-          aria-label="Replay sound"
-          disabled={!supported}
+          aria-label={voicesLoading ? "Loading audio" : speaking ? "Playing" : "Replay sound"}
+          disabled={!supported || voicesLoading}
         >
           <svg viewBox="0 0 24 24" width="40" height="40" aria-hidden="true">
             <path d="M3 10 L3 14 L7 14 L12 18 L12 6 L7 10 Z" fill="currentColor" />
