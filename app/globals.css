@@ -2774,3 +2774,215 @@ html, body {
 .exit-modal-actions .btn {
   justify-content: center;
 }
+
+/* === Lesson Path: zigzag journey visualization === */
+.lesson-path {
+  margin-top: 40px;
+  max-width: 720px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.lesson-path .section-title-left {
+  margin-bottom: 32px;
+}
+
+.path-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  position: relative;
+}
+
+.path-node {
+  position: relative;
+  display: flex;
+  align-items: stretch;
+  margin-bottom: 16px;
+  padding: 16px 0;
+}
+
+.path-node-left {
+  justify-content: flex-start;
+}
+
+.path-node-right {
+  justify-content: flex-end;
+}
+
+/* Dashed connector line — vertical segment between nodes */
+.path-connector {
+  position: absolute;
+  top: -16px;
+  left: 50%;
+  transform: translateX(-50%);
+  width: 3px;
+  height: 32px;
+  background-image: linear-gradient(to bottom, var(--border) 50%, transparent 50%);
+  background-size: 3px 8px;
+  background-repeat: repeat-y;
+  z-index: 0;
+}
+
+/* The clickable link wrapping the whole node */
+.path-link {
+  display: flex;
+  align-items: center;
+  gap: 16px;
+  text-decoration: none;
+  color: inherit;
+  width: 100%;
+  max-width: 480px;
+  position: relative;
+  z-index: 1;
+  transition: transform 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.path-node-right .path-link {
+  flex-direction: row-reverse;
+}
+
+.path-link:hover {
+  transform: translateY(-3px);
+}
+
+.path-link:active {
+  transform: translateY(1px);
+}
+
+/* The big circle with the lesson number */
+.path-circle {
+  flex-shrink: 0;
+  width: 80px;
+  height: 80px;
+  border-radius: 50%;
+  background: var(--teal);
+  border: 3px solid var(--border);
+  box-shadow: 0 6px 0 var(--shadow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+[data-theme="dark"] .path-circle {
+  border-color: var(--teal);
+}
+
+.path-link:hover .path-circle {
+  transform: rotate(-4deg) scale(1.04);
+  box-shadow: 0 8px 0 var(--shadow);
+}
+
+.path-num {
+  font-family: var(--font-fraunces), serif;
+  font-size: 36px;
+  font-weight: 900;
+  color: white;
+  line-height: 1;
+}
+
+[data-theme="light"] .path-num { color: white; }
+[data-theme="dark"] .path-num { color: var(--bg); }
+
+/* The card body next to the circle */
+.path-card {
+  flex: 1;
+  background: var(--surface);
+  border: 3px solid var(--border);
+  border-radius: 20px;
+  padding: 18px 22px;
+  box-shadow: 0 4px 0 var(--shadow);
+  transition: all 0.18s cubic-bezier(0.34, 1.56, 0.64, 1);
+  position: relative;
+}
+
+.path-link:hover .path-card {
+  box-shadow: 0 6px 0 var(--shadow);
+}
+
+.path-badge {
+  position: absolute;
+  top: -10px;
+  right: -12px;
+  background: var(--gold);
+  color: var(--ink);
+  font-family: var(--font-caveat), cursive;
+  font-size: 18px;
+  font-weight: 700;
+  padding: 2px 14px;
+  border-radius: 100px;
+  border: 2px solid var(--border);
+  transform: rotate(-3deg);
+  letter-spacing: 0.01em;
+}
+
+.path-node-right .path-badge {
+  right: auto;
+  left: 20px;
+  transform: rotate(3deg);
+}
+
+.path-title {
+  font-family: var(--font-fraunces), serif;
+  font-size: 22px;
+  font-weight: 900;
+  color: var(--ink);
+  letter-spacing: -0.02em;
+  margin-bottom: 4px;
+  line-height: 1.2;
+}
+
+.path-blurb {
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--ink-soft);
+  line-height: 1.45;
+  margin-bottom: 10px;
+}
+
+.path-meta {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--ink-muted);
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.path-meta-dot {
+  opacity: 0.5;
+}
+
+/* Reduced motion: kill all spring animations */
+@media (prefers-reduced-motion: reduce) {
+  .path-link,
+  .path-circle,
+  .path-card {
+    transition: none;
+  }
+  .path-link:hover {
+    transform: none;
+  }
+  .path-link:hover .path-circle {
+    transform: none;
+  }
+}
+
+/* Mobile: tighten layout, keep zigzag visual but smaller */
+@media (max-width: 640px) {
+  .path-node { margin-bottom: 12px; padding: 12px 0; }
+  .path-circle { width: 64px; height: 64px; }
+  .path-num { font-size: 28px; }
+  .path-card { padding: 14px 16px; border-radius: 16px; }
+  .path-title { font-size: 18px; }
+  .path-blurb { font-size: 13px; margin-bottom: 8px; }
+  .path-link { gap: 12px; }
+  .path-connector { height: 24px; top: -12px; }
+}
+
+/* Hide the old lessons-list styles (we replaced them with the path) */
+.lessons-section,
+.lessons-list { display: none; }
