@@ -1,7 +1,7 @@
 import Link from "next/link";
 import type { ReactNode, MouseEventHandler } from "react";
 
-type Variant = "primary" | "ghost" | "cta";
+type Variant = "primary" | "ghost" | "cta" | "destructive";
 
 type Props = {
   variant?: Variant;
@@ -15,6 +15,7 @@ const variantClass: Record<Variant, string> = {
   primary: "btn btn-primary",
   ghost: "btn btn-ghost",
   cta: "cta-btn",
+  destructive: "btn btn-destructive",
 };
 
 export function Button({
