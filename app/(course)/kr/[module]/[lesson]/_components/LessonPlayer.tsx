@@ -51,11 +51,13 @@ function findTransition(
 }
 
 type Props = {
+  nextLessonSlug?: string;
+  nextLessonTitle?: string;
   lesson: Lesson;
   moduleSlug: string;
 };
 
-export function LessonPlayer({ lesson, moduleSlug }: Props) {
+export function LessonPlayer({ lesson, moduleSlug, nextLessonSlug, nextLessonTitle }: Props) {
   const initialQueue = useMemo(() => lesson.exercises.map((e) => e.id), [lesson]);
   const [queue, setQueue] = useState<string[]>(initialQueue);
   const [currentIndex, setCurrentIndex] = useState(0);
@@ -161,6 +163,8 @@ export function LessonPlayer({ lesson, moduleSlug }: Props) {
           lesson={lesson}
           moduleSlug={moduleSlug}
           stats={{ total, correctFirstTry, reviewedAndGot, needsReview }}
+          nextLessonSlug={nextLessonSlug}
+          nextLessonTitle={nextLessonTitle}
         />
       </LessonShell>
     );
