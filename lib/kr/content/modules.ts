@@ -1,14 +1,20 @@
 import type { Module, Course } from "../types";
-import { sixBasicVowels, yVowels, firstFourConsonants } from "./lessons";
+import {
+  sixBasicVowels,
+  yVowels,
+  firstFourConsonants,
+  fiveMoreConsonants,
+  aspiratedConsonants,
+} from "./lessons";
 
 export const hangulBasics: Module = {
   id: "m1",
   slug: "hangul-basics",
   number: 1,
   title: "Hangul basics",
-  blurb: "The alphabet. Vowels first, then consonants. By the end you can read real syllables.",
-  estimatedMinutes: 30,
-  lessons: [sixBasicVowels, yVowels, firstFourConsonants],
+  blurb: "The alphabet. Vowels first, then consonants. By the end you can read every basic Korean letter.",
+  estimatedMinutes: 63,
+  lessons: [sixBasicVowels, yVowels, firstFourConsonants, fiveMoreConsonants, aspiratedConsonants],
 };
 
 export const koreanCourse: Course = {
