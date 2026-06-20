@@ -49,6 +49,7 @@ export default function RootLayout({
       lang="en"
       className={`${nunito.variable} ${fraunces.variable} ${caveat.variable} h-full antialiased`}
       suppressHydrationWarning
+      data-scroll-behavior="smooth"
     >
       <head>
         <script dangerouslySetInnerHTML={{ __html: themeScript }} />
