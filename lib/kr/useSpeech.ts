@@ -8,6 +8,7 @@ export function useSpeech() {
   const [voicesLoading, setVoicesLoading] = useState(true);
   const [speaking, setSpeaking] = useState(false);
 
+  /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => {
     if (typeof window === "undefined" || !window.speechSynthesis) {
       setVoicesLoading(false);
@@ -35,6 +36,7 @@ export function useSpeech() {
       clearTimeout(fallback);
     };
   }, []);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   const speak = useCallback(
     (text: string) => {

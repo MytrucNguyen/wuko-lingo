@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo } from "react";
 import { ChoiceScreen } from "./ChoiceScreen";
+import { Button } from "@/components/Button";
 import { useSpeech } from "@/lib/kr/useSpeech";
 import type { Exercise, Jamo } from "@/lib/kr/types";
 
@@ -45,6 +46,7 @@ export function RecognizeScreen({ exercise, onAnswer }: Props) {
       jamo: j,
       label: <span className="choice-option-letter">{j.char}</span>,
     }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [exercise.id]);
 
   if (typeof target === "string") return null;
@@ -58,11 +60,12 @@ export function RecognizeScreen({ exercise, onAnswer }: Props) {
       prompt={exercise.prompt}
       note={exercise.note}
       display={
-        <button
+        <Button
+          variant="bare"
           className="recognize-speaker"
-          data-state={voicesLoading ? "loading" : speaking ? "playing" : "idle"}
+          dataState={voicesLoading ? "loading" : speaking ? "playing" : "idle"}
           onClick={handleReplay}
-          aria-label={voicesLoading ? "Loading audio" : speaking ? "Playing" : "Replay sound"}
+          ariaLabel={voicesLoading ? "Loading audio" : speaking ? "Playing" : "Replay sound"}
           disabled={!supported || voicesLoading}
         >
           <svg viewBox="0 0 24 24" width="40" height="40" aria-hidden="true">
@@ -70,7 +73,7 @@ export function RecognizeScreen({ exercise, onAnswer }: Props) {
             <path d="M15 9 Q17 12 15 15" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" />
             <path d="M17 7 Q21 12 17 17" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" />
           </svg>
-        </button>
+        </Button>
       }
       options={shuffledOptions}
       correctJamo={target}

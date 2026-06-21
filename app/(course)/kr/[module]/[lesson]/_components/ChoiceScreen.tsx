@@ -3,6 +3,7 @@
 import { useState, useEffect, useRef, type ReactNode } from "react";
 import { WukoNote } from "@/components/WukoNote";
 import { IconButton } from "@/components/IconButton";
+import { Button } from "@/components/Button";
 import { useSoundFeedback } from "@/lib/kr/useSoundFeedback";
 import { useSpeech } from "@/lib/kr/useSpeech";
 import type { Jamo } from "@/lib/kr/types";
@@ -31,13 +32,10 @@ export function ChoiceScreen({ prompt, note, display, options, correctJamo, onAn
   const advanceTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   useEffect(() => {
-    setSelected(null);
-    setRevealed(false);
-    setWasCorrect(null);
     return () => {
       if (advanceTimerRef.current) clearTimeout(advanceTimerRef.current);
     };
-  }, [prompt, correctJamo.char]);
+  }, []);
 
   const handlePick = (jamo: Jamo) => {
     if (revealed) return;
@@ -82,15 +80,16 @@ export function ChoiceScreen({ prompt, note, display, options, correctJamo, onAn
 
       <div className={`choice-options choice-options-count-${options.length}`}>
         {options.map((opt) => (
-          <button
+          <Button
             key={opt.jamo.char}
+            variant="bare"
             className="choice-option"
-            data-state={stateFor(opt.jamo)}
+            dataState={stateFor(opt.jamo)}
             onClick={() => handlePick(opt.jamo)}
             disabled={revealed}
           >
             {opt.label}
-          </button>
+          </Button>
         ))}
       </div>
 
@@ -98,10 +97,11 @@ export function ChoiceScreen({ prompt, note, display, options, correctJamo, onAn
         <div className="choice-correction">
           <span>It was <strong>{correctJamo.romanization}</strong></span>
           {speechSupported && (
-            <button
+            <Button
+              variant="bare"
               className="choice-correction-replay"
               onClick={handleReplay}
-              aria-label="Hear the correct sound"
+              ariaLabel="Hear the correct sound"
               disabled={voicesLoading}
             >
               <svg viewBox="0 0 24 24" width="18" height="18" aria-hidden="true">
@@ -110,7 +110,7 @@ export function ChoiceScreen({ prompt, note, display, options, correctJamo, onAn
                 <path d="M17 7 Q21 12 17 17" stroke="currentColor" strokeWidth="2" fill="none" strokeLinecap="round" />
               </svg>
               <span>{speaking ? "playing" : "hear it"}</span>
-            </button>
+            </Button>
           )}
         </div>
       )}

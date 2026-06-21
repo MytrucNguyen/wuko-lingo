@@ -45,15 +45,12 @@ export function ProduceScreen({ exercise, onAnswer }: Props) {
   const target = exercise.target;
 
   useEffect(() => {
-    setValue("");
-    setRevealed(false);
-    setWasCorrect(null);
     const t = setTimeout(() => inputRef.current?.focus(), 100);
     return () => {
       clearTimeout(t);
       if (advanceTimerRef.current) clearTimeout(advanceTimerRef.current);
     };
-  }, [exercise.id]);
+  }, []);
 
   if (typeof target === "string") return null;
 

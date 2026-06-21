@@ -13,6 +13,7 @@ export function useSoundFeedback() {
   const audioCtxRef = useRef<AudioContext | null>(null);
   const [enabled, setEnabled] = useState(true);
 
+  /* eslint-disable react-hooks/set-state-in-effect */
   useEffect(() => {
     if (typeof window === "undefined") return;
 
@@ -26,6 +27,7 @@ export function useSoundFeedback() {
     const stored = localStorage.getItem(STORAGE_KEY);
     if (stored === "off") setEnabled(false);
   }, []);
+  /* eslint-enable react-hooks/set-state-in-effect */
 
   const ensureContext = useCallback(() => {
     if (typeof window === "undefined") return null;

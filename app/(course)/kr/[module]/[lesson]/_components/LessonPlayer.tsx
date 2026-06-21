@@ -141,14 +141,15 @@ export function LessonPlayer({ lesson, moduleSlug, nextLessonSlug, nextLessonTit
   };
 
   if (done) {
-    const total = lesson.exercises.length;
-    const correctFirstTry = lesson.exercises.filter(
+    const tested = lesson.exercises.filter((e) => e.type !== "meet");
+    const total = tested.length;
+    const correctFirstTry = tested.filter(
       (e) => statuses[e.id] === "correct"
     ).length;
-    const reviewedAndGot = lesson.exercises.filter(
+    const reviewedAndGot = tested.filter(
       (e) => statuses[e.id] === "review-correct"
     ).length;
-    const needsReview = lesson.exercises.filter(
+    const needsReview = tested.filter(
       (e) => statuses[e.id] === "wrong"
     ).length;
 

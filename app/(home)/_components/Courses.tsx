@@ -7,7 +7,7 @@ export function Courses() {
         <div className="section-eyebrow">pick your favorite</div>
         <h2 className="section-title">Which language calls to you?</h2>
         <p className="section-sub">
-          Korean is ready to play with. I'm busy writing the others, and they'll be here soon!
+          Korean is ready to play with. I&apos;m busy writing the others, and they&apos;ll be here soon!
         </p>
       </div>
 

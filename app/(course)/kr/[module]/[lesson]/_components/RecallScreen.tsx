@@ -2,6 +2,7 @@
 
 import { useMemo } from "react";
 import { ChoiceScreen } from "./ChoiceScreen";
+import { Button } from "@/components/Button";
 import { useSpeech } from "@/lib/kr/useSpeech";
 import type { Exercise, Jamo } from "@/lib/kr/types";
 
@@ -40,6 +41,7 @@ export function RecallScreen({ exercise, onAnswer }: Props) {
       jamo: j,
       label: getSoundLabel(j),
     }));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [exercise.id]);
 
   if (typeof target === "string") return null;
@@ -53,14 +55,14 @@ export function RecallScreen({ exercise, onAnswer }: Props) {
       prompt={exercise.prompt}
       note={exercise.note}
       display={
-        <button
+        <Button
+          variant="bare"
           className="choice-letter choice-letter-tappable"
           onClick={handleTapLetter}
-          aria-label="Hear this letter"
-          type="button"
+          ariaLabel="Hear this letter"
         >
           {target.char}
-        </button>
+        </Button>
       }
       options={shuffledOptions}
       correctJamo={target}
