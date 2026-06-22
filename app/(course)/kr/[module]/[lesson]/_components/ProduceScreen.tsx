@@ -24,6 +24,7 @@ function getAcceptedAnswers(jamo: Jamo): string[] {
   const answers = new Set<string>();
   answers.add(normalize(jamo.romanization));
   jamo.romanization.split("/").forEach((part) => answers.add(normalize(part)));
+  if (jamo.kind === "consonant") answers.add(normalize(jamo.soundRoman));
   if (jamo.soundsLike) answers.add(normalize(jamo.soundsLike.phonetic));
   return Array.from(answers).filter(Boolean);
 }
@@ -123,7 +124,7 @@ export function ProduceScreen({ exercise, onAnswer }: Props) {
 
       {revealed && wasCorrect === false && (
         <div className="choice-correction">
-          <span>It was <strong>{target.romanization}</strong></span>
+          <span>It was <strong>{target.kind === "consonant" ? target.soundRoman : target.romanization}</strong></span>
           {speechSupported && (
             <button
               className="choice-correction-replay"

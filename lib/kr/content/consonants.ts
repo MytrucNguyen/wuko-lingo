@@ -12,6 +12,7 @@ export const consonants: Record<string, Consonant> = {
     soundsLike: { word: "go", phonetic: "g" },
     audioHint: "기역",
     soundHint: "가",
+    soundRoman: "ga",
   },
   nieun: {
     kind: "consonant",
@@ -24,6 +25,7 @@ export const consonants: Record<string, Consonant> = {
     soundsLike: { word: "no", phonetic: "n" },
     audioHint: "니은",
     soundHint: "나",
+    soundRoman: "na",
   },
   digeut: {
     kind: "consonant",
@@ -36,6 +38,7 @@ export const consonants: Record<string, Consonant> = {
     soundsLike: { word: "door", phonetic: "d" },
     audioHint: "디귿",
     soundHint: "다",
+    soundRoman: "da",
   },
   rieul: {
     kind: "consonant",
@@ -48,6 +51,7 @@ export const consonants: Record<string, Consonant> = {
     soundsLike: { word: "ribbon", phonetic: "r/l" },
     audioHint: "리을",
     soundHint: "라",
+    soundRoman: "ra",
   },
   mieum: {
     kind: "consonant",
@@ -60,6 +64,7 @@ export const consonants: Record<string, Consonant> = {
     soundsLike: { word: "me", phonetic: "m" },
     audioHint: "미음",
     soundHint: "마",
+    soundRoman: "ma",
   },
   bieup: {
     kind: "consonant",
@@ -72,6 +77,7 @@ export const consonants: Record<string, Consonant> = {
     soundsLike: { word: "boy", phonetic: "b" },
     audioHint: "비읍",
     soundHint: "바",
+    soundRoman: "ba",
   },
   siot: {
     kind: "consonant",
@@ -84,6 +90,7 @@ export const consonants: Record<string, Consonant> = {
     soundsLike: { word: "sun", phonetic: "s" },
     audioHint: "시옷",
     soundHint: "사",
+    soundRoman: "sa",
   },
   ieung: {
     kind: "consonant",
@@ -96,6 +103,7 @@ export const consonants: Record<string, Consonant> = {
     soundsLike: { word: "song", phonetic: "ng" },
     audioHint: "이응",
     soundHint: "응",
+    soundRoman: "eung",
   },
   jieut: {
     kind: "consonant",
@@ -108,6 +116,7 @@ export const consonants: Record<string, Consonant> = {
     soundsLike: { word: "joy", phonetic: "j" },
     audioHint: "지읒",
     soundHint: "자",
+    soundRoman: "ja",
   },
   chieut: {
     kind: "consonant",
@@ -120,6 +129,7 @@ export const consonants: Record<string, Consonant> = {
     soundsLike: { word: "chair", phonetic: "ch" },
     audioHint: "치읓",
     soundHint: "차",
+    soundRoman: "cha",
   },
   kieuk: {
     kind: "consonant",
@@ -132,6 +142,7 @@ export const consonants: Record<string, Consonant> = {
     soundsLike: { word: "key", phonetic: "k" },
     audioHint: "키읔",
     soundHint: "카",
+    soundRoman: "ka",
   },
   tieut: {
     kind: "consonant",
@@ -144,6 +155,7 @@ export const consonants: Record<string, Consonant> = {
     soundsLike: { word: "tea", phonetic: "t" },
     audioHint: "티읕",
     soundHint: "타",
+    soundRoman: "ta",
   },
   pieup: {
     kind: "consonant",
@@ -156,6 +168,7 @@ export const consonants: Record<string, Consonant> = {
     soundsLike: { word: "pie", phonetic: "p" },
     audioHint: "피읖",
     soundHint: "파",
+    soundRoman: "pa",
   },
   hieut: {
     kind: "consonant",
@@ -168,5 +181,6 @@ export const consonants: Record<string, Consonant> = {
     soundsLike: { word: "hat", phonetic: "h" },
     audioHint: "히읗",
     soundHint: "하",
+    soundRoman: "ha",
   },
 };
