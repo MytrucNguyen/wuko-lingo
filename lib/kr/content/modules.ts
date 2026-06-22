@@ -7,6 +7,7 @@ import {
   fiveMoreConsonants,
   aspiratedConsonants,
   buildEveryBlock,
+  alphabetCheckpoint,
 } from "./lessons";
 
 export const hangulBasics: Module = {
@@ -15,8 +16,8 @@ export const hangulBasics: Module = {
   number: 1,
   title: "Hangul basics",
   blurb: "The alphabet. Vowels first, then consonants. By the end you can read every basic Korean letter.",
-  estimatedMinutes: 70,
-  lessons: [sixBasicVowels, yVowels, firstFourConsonants, buildFirstBlocks, fiveMoreConsonants, aspiratedConsonants, buildEveryBlock],
+  estimatedMinutes: 78,
+  lessons: [sixBasicVowels, yVowels, firstFourConsonants, buildFirstBlocks, fiveMoreConsonants, aspiratedConsonants, buildEveryBlock, alphabetCheckpoint],
 };
 
 export const koreanCourse: Course = {
