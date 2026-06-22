@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { Nunito, Fraunces, Caveat } from "next/font/google";
 import "./globals.css";
+import { ThemeScript } from "./theme-script";
 
 const nunito = Nunito({
   variable: "--font-nunito",
@@ -26,19 +27,6 @@ export const metadata: Metadata = {
     "Learn languages by ear, with Wuko. No flashcards, no boring drills. Just sound-first, recall fast, build it yourself.",
 };
 
-const themeScript = `
-  (function() {
-    try {
-      var stored = localStorage.getItem('wuko-theme');
-      var prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
-      var theme = stored || (prefersDark ? 'dark' : 'light');
-      document.documentElement.setAttribute('data-theme', theme);
-    } catch (e) {
-      document.documentElement.setAttribute('data-theme', 'light');
-    }
-  })();
-`;
-
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -51,10 +39,10 @@ export default function RootLayout({
       suppressHydrationWarning
       data-scroll-behavior="smooth"
     >
-      <head>
-        <script dangerouslySetInnerHTML={{ __html: themeScript }} />
-      </head>
-      <body className="min-h-full font-sans">{children}</body>
+      <body className="min-h-full font-sans">
+        <ThemeScript />
+        {children}
+      </body>
     </html>
   );
 }
