@@ -3618,3 +3618,90 @@ html, body {
   .intro-examples { padding: 20px 14px; gap: 18px; }
   .intro-lede { font-size: 15px; }
 }
+
+/* === Build test (prompted "build the sound") === */
+.buildtest-target {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  background: none;
+}
+.buildtest-target-sound {
+  font-family: var(--font-fraunces), serif;
+  font-size: 42px;
+  font-weight: 900;
+  color: var(--teal-deep);
+  background: var(--surface);
+  border: 3px solid var(--border);
+  border-radius: 20px;
+  box-shadow: 6px 6px 0 var(--shadow);
+  padding: 12px 30px;
+  line-height: 1;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.buildtest-target:hover .buildtest-target-sound { transform: translateY(-2px); box-shadow: 8px 8px 0 var(--shadow); }
+.buildtest-target:active .buildtest-target-sound { transform: translateY(2px); box-shadow: 4px 4px 0 var(--shadow); }
+.buildtest-target-hint {
+  font-family: var(--font-nunito), sans-serif;
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--ink-muted);
+}
+
+.build-option[data-state="correct"] {
+  background: var(--teal);
+  border-color: var(--teal);
+  box-shadow: 0 4px 0 var(--teal-deep);
+  transform: scale(1.04);
+}
+.build-option[data-state="correct"] .build-option-letter { color: var(--bg); }
+.build-option[data-state="wrong"] {
+  background: var(--pink-deep);
+  border-color: var(--pink-deep);
+  box-shadow: 0 4px 0 var(--pink-deep);
+}
+.build-option[data-state="wrong"] .build-option-letter { color: #fff; }
+.build-option[data-state="show-correct"] {
+  background: var(--teal-soft);
+  border-color: var(--teal-deep);
+  border-width: 3px;
+  box-shadow: 0 4px 0 var(--teal-deep);
+}
+.buildtest-correction {
+  font-family: var(--font-nunito), sans-serif;
+  font-size: 16px;
+  font-weight: 700;
+  color: var(--ink-soft);
+}
+[data-theme="light"] .build-option[data-state="correct"] .build-option-letter { color: #fff; }
+
+[data-theme="dark"] .buildtest-target-sound { color: var(--teal); }
+
+/* === Build by ear (audio cue) === */
+.buildtest-listen {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8px;
+  cursor: pointer;
+  background: none;
+}
+.buildtest-listen-icon {
+  width: 88px;
+  height: 88px;
+  border-radius: 50%;
+  background: var(--teal-deep);
+  color: var(--surface);
+  border: 3px solid var(--border);
+  box-shadow: 6px 6px 0 var(--shadow);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s, box-shadow 0.15s;
+}
+.buildtest-listen:hover .buildtest-listen-icon { transform: translateY(-2px); box-shadow: 8px 8px 0 var(--shadow); }
+.buildtest-listen:active .buildtest-listen-icon { transform: translateY(2px); box-shadow: 4px 4px 0 var(--shadow); }

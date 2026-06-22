@@ -95,7 +95,7 @@ export function ChoiceScreen({ prompt, note, display, options, correctJamo, onAn
 
       {wasWrong && (
         <div className="choice-correction">
-          <span>It was <strong>{correctJamo.romanization}</strong></span>
+          <span>It was <strong>{correctJamo.kind === "consonant" ? correctJamo.soundRoman : correctJamo.romanization}</strong></span>
           {speechSupported && (
             <Button
               variant="bare"

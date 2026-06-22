@@ -11,10 +11,21 @@ type Props = {
   onAnswer: (correct: boolean) => void;
 };
 
-function shuffle<T>(arr: T[]): T[] {
+function shuffle<T>(arr: T[], seed: string): T[] {
+  let h = 2166136261;
+  for (let i = 0; i < seed.length; i++) {
+    h ^= seed.charCodeAt(i);
+    h = Math.imul(h, 16777619);
+  }
+  const rand = () => {
+    h += 0x6d2b79f5;
+    let t = Math.imul(h ^ (h >>> 15), 1 | h);
+    t ^= t + Math.imul(t ^ (t >>> 7), 61 | t);
+    return ((t ^ (t >>> 14)) >>> 0) / 4294967296;
+  };
   const a = [...arr];
   for (let i = a.length - 1; i > 0; i--) {
-    const j = Math.floor(Math.random() * (i + 1));
+    const j = Math.floor(rand() * (i + 1));
     [a[i], a[j]] = [a[j], a[i]];
   }
   return a;
@@ -42,7 +53,7 @@ export function RecognizeScreen({ exercise, onAnswer }: Props) {
     const jamoOptions = exercise.options.filter(
       (o): o is Jamo => typeof o !== "string"
     );
-    return shuffle(jamoOptions).map((j) => ({
+    return shuffle(jamoOptions, exercise.id).map((j) => ({
       jamo: j,
       label: <span className="choice-option-letter">{j.char}</span>,
     }));
@@ -55,9 +66,14 @@ export function RecognizeScreen({ exercise, onAnswer }: Props) {
     if (audioText) speak(audioText);
   };
 
+  const prompt =
+    target.kind === "consonant"
+      ? "Which letter does this sound start with?"
+      : "Which letter makes this sound?";
+
   return (
     <ChoiceScreen
-      prompt={exercise.prompt}
+      prompt={prompt}
       note={exercise.note}
       display={
         <Button
