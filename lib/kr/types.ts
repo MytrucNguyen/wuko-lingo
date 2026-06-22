@@ -1,6 +1,6 @@
 export type Romanization = string;
 
-export type ExerciseType = "meet" | "recognize" | "recall" | "produce" | "build" | "read";
+export type ExerciseType = "meet" | "recognize" | "recall" | "produce" | "build" | "read" | "intro";
 
 export type SoundsLike = {
   word: string;

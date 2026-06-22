@@ -93,10 +93,50 @@ export const firstFourConsonants: Lesson = {
   ],
 };
 
+export const buildFirstBlocks: Lesson = {
+  id: "m1-l3b",
+  slug: "build-your-first-blocks",
+  number: 4,
+  title: "Build your first blocks",
+  blurb: "Snap a consonant and a vowel together into a real Korean syllable, the way Hangul is actually read.",
+  introduces: [],
+  estimatedMinutes: 3,
+  exercises: [
+    {
+      id: "m1-l3b-e0",
+      type: "intro",
+      prompt: "How a syllable block works",
+      note: "Every Korean syllable is a block: a consonant and a vowel fused into one square. Where the vowel sits depends on its shape. Tap a block to hear it.",
+      target: "",
+      estimatedSeconds: 20,
+    },
+    {
+      id: "m1-l3b-e1",
+      type: "build",
+      prompt: "Build a syllable block",
+      note: "Korean is not read letter by letter. It is read in blocks. Pick one consonant and one vowel and watch them snap into a single syllable. Notice where the vowel lands: some stand to the right, some tuck in underneath. A few of these blocks are real words: 나 means me, 소 means cow, 무 means radish.",
+      target: "",
+      options: [
+        consonants.giyeok,
+        consonants.nieun,
+        consonants.mieum,
+        consonants.siot,
+        vowels.a,
+        vowels.eo,
+        vowels.o,
+        vowels.u,
+        vowels.eu,
+        vowels.i,
+      ],
+      estimatedSeconds: 60,
+    },
+  ],
+};
+
 export const fiveMoreConsonants: Lesson = {
   id: "m1-l4",
   slug: "five-more-consonants",
-  number: 4,
+  number: 5,
   title: "Five more consonants",
   blurb: "ㄷ ㄹ ㅂ ㅇ ㅈ. Plus the silent circle that unlocks standalone vowels.",
   introduces: [consonants.digeut, consonants.rieul, consonants.bieup, consonants.ieung, consonants.jieut],
@@ -134,7 +174,7 @@ export const fiveMoreConsonants: Lesson = {
 export const aspiratedConsonants: Lesson = {
   id: "m1-l5",
   slug: "add-a-stroke-add-a-breath",
-  number: 5,
+  number: 6,
   title: "Add a stroke, add a breath",
   blurb: "ㅋ ㅌ ㅍ ㅊ ㅎ. The aspirated cousins of letters you already know.",
   introduces: [consonants.kieuk, consonants.tieut, consonants.pieup, consonants.chieut, consonants.hieut],
@@ -160,5 +200,47 @@ export const aspiratedConsonants: Lesson = {
     { id: "m1-l5-e11", type: "produce", prompt: "Type the sound this letter makes.", target: consonants.kieuk, estimatedSeconds: 25, note: FIRST_PRODUCE_NOTE },
     { id: "m1-l5-e12", type: "produce", prompt: "Type the sound this letter makes.", target: consonants.pieup, estimatedSeconds: 20 },
     { id: "m1-l5-e13", type: "produce", prompt: "Type the sound this letter makes.", target: consonants.hieut, estimatedSeconds: 20 },
+  ],
+};
+
+export const buildEveryBlock: Lesson = {
+  id: "m1-l6b",
+  slug: "build-any-block",
+  number: 7,
+  title: "Build any block",
+  blurb: "Every consonant, every basic vowel. Snap together any syllable you can now read.",
+  introduces: [],
+  estimatedMinutes: 3,
+  exercises: [
+    {
+      id: "m1-l6b-e1",
+      type: "build",
+      prompt: "Build any syllable block",
+      note: "You know every basic letter now. Pick any consonant and any vowel and hear the block it makes. Remember ㅇ is silent at the start, so ㅇ plus a vowel is just the vowel: 아, 어, 오.",
+      target: "",
+      options: [
+        consonants.giyeok,
+        consonants.nieun,
+        consonants.digeut,
+        consonants.rieul,
+        consonants.mieum,
+        consonants.bieup,
+        consonants.siot,
+        consonants.ieung,
+        consonants.jieut,
+        consonants.chieut,
+        consonants.kieuk,
+        consonants.tieut,
+        consonants.pieup,
+        consonants.hieut,
+        vowels.a,
+        vowels.eo,
+        vowels.o,
+        vowels.u,
+        vowels.eu,
+        vowels.i,
+      ],
+      estimatedSeconds: 60,
+    },
   ],
 };

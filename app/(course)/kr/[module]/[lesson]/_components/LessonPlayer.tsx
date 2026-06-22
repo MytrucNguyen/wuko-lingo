@@ -7,6 +7,8 @@ import { MeetScreen } from "./MeetScreen";
 import { RecallScreen } from "./RecallScreen";
 import { RecognizeScreen } from "./RecognizeScreen";
 import { ProduceScreen } from "./ProduceScreen";
+import { BuildScreen } from "./BuildScreen";
+import { BlockIntroScreen } from "./BlockIntroScreen";
 import { ExercisePlaceholder } from "./ExercisePlaceholder";
 import { LessonComplete } from "./LessonComplete";
 import { PhaseTransitionScreen } from "./PhaseTransitionScreen";
@@ -38,6 +40,18 @@ const PHASE_TRANSITIONS: PhaseTransition[] = [
     to: "produce",
     eyebrow: "last stretch",
     message: "No more options. Type what you hear in your head. This is what makes it stick.",
+  },
+  {
+    from: "recognize",
+    to: "build",
+    eyebrow: "now combine",
+    message: "You can spot the letters. Now snap them together into real syllable blocks, the way Korean is actually written.",
+  },
+  {
+    from: "build",
+    to: "produce",
+    eyebrow: "last stretch",
+    message: "No more options. Type the sound the letter makes. Typing it makes the memory stick deeper.",
   },
 ];
 
@@ -101,7 +115,7 @@ export function LessonPlayer({ lesson, moduleSlug, nextLessonSlug, nextLessonTit
 
   const handleTransitionBack = useCallback(() => {
     setActiveTransition(null);
-    // Stay on current index — user returns to the last exercise they completed
+    // Stay on current index. User returns to the last exercise they completed
   }, []);
 
   const handleMeetNext = () => {
@@ -141,7 +155,9 @@ export function LessonPlayer({ lesson, moduleSlug, nextLessonSlug, nextLessonTit
   };
 
   if (done) {
-    const tested = lesson.exercises.filter((e) => e.type !== "meet");
+    const tested = lesson.exercises.filter((e) =>
+      e.type === "recall" || e.type === "recognize" || e.type === "produce"
+    );
     const total = tested.length;
     const correctFirstTry = tested.filter(
       (e) => statuses[e.id] === "correct"
@@ -230,7 +246,25 @@ export function LessonPlayer({ lesson, moduleSlug, nextLessonSlug, nextLessonTit
           onAnswer={handleAnswer}
         />
       )}
-      {!["meet", "recall", "recognize", "produce"].includes(exercise.type) && (
+      {exercise.type === "build" && (
+        <BuildScreen
+          key={exercise.id + currentIndex}
+          exercise={exercise}
+          onNext={handleMeetNext}
+          onBack={handleBack}
+          canGoBack={canGoBack}
+        />
+      )}
+      {exercise.type === "intro" && (
+        <BlockIntroScreen
+          key={exercise.id + currentIndex}
+          exercise={exercise}
+          onNext={handleMeetNext}
+          onBack={handleBack}
+          canGoBack={canGoBack}
+        />
+      )}
+      {!["meet", "recall", "recognize", "produce", "build", "intro"].includes(exercise.type) && (
         <ExercisePlaceholder
           key={exercise.id + currentIndex}
           exercise={exercise}
